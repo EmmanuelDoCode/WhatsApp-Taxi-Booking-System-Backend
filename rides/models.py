@@ -14,6 +14,12 @@ class Driver(models.Model): #for driver
 
     def __str__(self):
         return self.name
+    
+rejected_by =     models.ManyToManyField(
+    Driver,
+    blank=True,
+    related_name= "rejected_rides"
+)
 
 
 class Ride(models.Model): #for customer

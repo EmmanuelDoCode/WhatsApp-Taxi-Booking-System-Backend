@@ -22,9 +22,19 @@ def whatsapp_webhook(request):
         estimated_price = 5000,
         driver = available_driver,
         status = "assigned" if  available_driver else "pending" #this assign driver if is available
-
-
     )
+    if available_driver:
+        print("\n=== CUSTOMER NOTIFICATION ===")
+        print(
+            f"Hello {ride.customer_name},"
+            f"your ride has been assigned. \n"
+            f"Driver: {available_driver.name}\n"
+            f"Vehicle: {available_driver.vehicle_type}\n"
+            f"plate Number: {available_driver.plate_number}"
+        )
+        print("================================")
+
+    
 
     return Response({"message": "Ride created",
                      "ride_id": ride.id})
