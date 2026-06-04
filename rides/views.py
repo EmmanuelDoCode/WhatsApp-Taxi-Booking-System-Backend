@@ -10,6 +10,41 @@ import requests
 
 
 @api_view(["POST"])
+def reject_ride(request, ride_id, driver_id):
+    try:
+        ride = Ride.objects.get(id = ride_id)
+        driver= Driver.objects.get(id = driver_id)
+        
+    except Ride.DoesNotExist:
+        return Response({"error": "Ride not found"}, status= 404)
+    
+    except Driver.DoesNotExist:
+        return Response({"error": "Driver not found"}, status= 404)
+    
+    # this record rejection
+    ride.rejected_by.add(driver)
+
+    # this find another available driver
+    next_driver = Driver.objects.filter(is_available = True).exclude(id__in= ride.rejected_by.values_list("id", flat=True)).first()
+
+    if next_driver:
+        ride.driver = next_driver
+        ride.status = "offered"
+        ride.save()
+
+        return Response({
+            "message": f"Ride offered to {next_driver.name}"
+                        })
+    
+    # no driverr left?
+    ride.driver = None
+    ride.status = "cancelled"
+    ride.save()
+
+    return Response({"message": "No driver is available. Ride cancelled"})
+
+
+@api_view(["POST"]) #this works whatsapp request
 def whatsapp_webhook(request):
     data = request.data
 

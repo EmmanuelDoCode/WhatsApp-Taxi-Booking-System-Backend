@@ -15,17 +15,14 @@ class Driver(models.Model): #for driver
     def __str__(self):
         return self.name
     
-rejected_by =     models.ManyToManyField(
-    Driver,
-    blank=True,
-    related_name= "rejected_rides"
-)
+
 
 
 class Ride(models.Model): #for customer
 
     STATUS_CHOICES = [('pending', 'Pending'),
                       ('requested', 'requested'),
+                      ('offered', 'offered'),
                       ('assigned', 'Assigned'),
                       ('ongoing', 'Ongoing'),
                       ('completed', 'Completed'),
@@ -38,6 +35,12 @@ class Ride(models.Model): #for customer
     status= models.CharField(max_length=50,choices=STATUS_CHOICES, default="pending")
     driver= models.ForeignKey(Driver ,on_delete=models.SET_NULL, null= True, blank=True)
     created_at = models.DateTimeField(auto_now_add= True)
+
+
+    rejected_by =     models.ManyToManyField(
+    Driver,
+    blank=True,
+    related_name= "rejected_rides")
 
     def clean(self):
         if self.driver and self.status == "assigned":
