@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import driver_response
 from .views import whatsapp_webhook
-from .views import reject_ride
+from .views import reject_ride, accept_ride
 
 urlpatterns =[ path('rides/', views.ride_list_create, 
                                         name= 'ride_list_create'),
@@ -10,6 +10,7 @@ urlpatterns =[ path('rides/', views.ride_list_create,
                                 path('rides/<int:ride_id>/driver-response/', driver_response, name = 'driver_response'),
                                 path("webhook/", whatsapp_webhook),
                                 path("rides/<int:ride_id>/reject/<int:driver_id>/", reject_ride, name="reject_ride"),
-                                
+                                path("rides/<int:ride_id>/accept/<int:driver_id>/", accept_ride, name="accept_ride"),
+
                    
                    ]  

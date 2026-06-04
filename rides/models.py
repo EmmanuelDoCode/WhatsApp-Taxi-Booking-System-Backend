@@ -42,6 +42,12 @@ class Ride(models.Model): #for customer
     blank=True,
     related_name= "rejected_rides")
 
+    accepted_by = models.ManyToManyField(
+        Driver,
+        blank= True,
+        related_name= "accepted_rides"
+    )
+
     def clean(self):
         if self.driver and self.status == "assigned":
 

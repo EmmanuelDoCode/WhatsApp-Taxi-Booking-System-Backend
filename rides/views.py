@@ -8,6 +8,39 @@ from .models import Ride, Driver
 from .serializers import RideSerializer
 import requests
 
+@api_view(["POST"])
+def accept_ride(request, ride_id,driver_id):
+    try:
+        ride = Ride.objects.get(id = ride_id)
+        driver= Driver.objects.get(id = driver_id)
+        
+    except Ride.DoesNotExist:
+        return Response({"error": "Ride not found"}, status= 404)
+    
+    except Driver.DoesNotExist:
+        return Response({"error": "Driver not found"}, status= 404)
+    
+    # only driver can accept
+    if ride.driver != driver:
+        return Response({"error": "You are not assigned to this ride"}, status=403)
+    
+    # The state ride must be offer
+    if ride.status != "offered":
+        return Response({"error": "Ride is not awaiting acceptance"}, status= 400)
+    
+    ride.status = "assigned"
+    ride.save()
+
+    print("\n=== CUSTOMER NOTIFICATION ===")
+    print(f"Your driver is on the way.\n",
+          f"Driver: {driver.name}\n",
+          f"Vehicle: {driver.vehicle_type}\n",
+          f"plate number: {driver.plate_number}")
+    print("================================\n")
+    
+    return Response({"message": "Ride accepted succesfully"})
+    
+
 
 @api_view(["POST"])
 def reject_ride(request, ride_id, driver_id):
@@ -20,6 +53,7 @@ def reject_ride(request, ride_id, driver_id):
     
     except Driver.DoesNotExist:
         return Response({"error": "Driver not found"}, status= 404)
+    
     
     # this record rejection
     ride.rejected_by.add(driver)
