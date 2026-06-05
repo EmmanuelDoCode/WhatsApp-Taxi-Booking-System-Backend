@@ -8,6 +8,72 @@ from .models import Ride, Driver
 from .serializers import RideSerializer
 import requests
 
+
+# 4 this code is for when ride is complete
+@api_view(["POST"])
+def complete_ride(request, ride_id, driver_id):
+    try:
+        ride = Ride.objects.get(id=ride_id)
+        driver: Driver = Driver.objects.get(id=driver_id)
+
+    except Ride.DoesNotExist:
+        return Response({"error": "Ride not found"}, status= 404)
+    
+    except Driver.DoesNotExist:
+        return Response({"error": "Driver not found"}, status= 404)
+    
+    # only assigned driver can start ride
+    if ride.driver != driver:
+        return Response({"error": "You are not assigned to this ride"}, status=403)
+    
+    # ride must be assigned first
+    if ride.status != "ongoing":
+        return Response({"error": "Ride must be ongoing before it can completed"}, status= 400)
+    
+    ride.status = "completed"
+    ride.save()
+
+    print("\n=== CUSTOMER NOTIFICATION ===")
+    print(f"Hello {ride.customer_name}.\n",
+          f"Your  trip has completed: {driver.name}\n",
+          f"Vehicle: {driver.vehicle_type}\n",
+          f"Thank you for riding with us!")
+    print("================================\n")
+    
+    return Response({"message": "Ride completed succesfully"})
+
+
+# 3 this allow driver to start ride after it is assigned
+@api_view(["POST"])
+def start_ride(request, ride_id, driver_id):
+    try:
+        ride = Ride.objects.get(id=ride_id)
+        driver: Driver = Driver.objects.get(id=driver_id)
+
+    except Ride.DoesNotExist:
+        return Response({"error": "Ride not found"}, status= 404)
+    
+    except Driver.DoesNotExist:
+        return Response({"error": "Driver not found"}, status= 404)
+    
+    # only assigned driver can start ride
+    if ride.driver != driver:
+        return Response({"error": "You are not assigned to this ride"}, status=403)
+    
+    # ride must be assigned first
+    if ride.status != "assigned":
+        return Response({"error": "Ride must be accepted before it can start"}, status= 400)
+    
+    ride.status = "ongoing"
+    ride.save()
+
+
+    
+    return Response({"message": "Ride started succesfully"})
+
+    
+
+# 1 this let drivers to accept rides
 @api_view(["POST"])
 def accept_ride(request, ride_id,driver_id):
     try:
@@ -41,7 +107,7 @@ def accept_ride(request, ride_id,driver_id):
     return Response({"message": "Ride accepted succesfully"})
     
 
-
+    # 2 this allow drivers to reject rides
 @api_view(["POST"])
 def reject_ride(request, ride_id, driver_id):
     try:
