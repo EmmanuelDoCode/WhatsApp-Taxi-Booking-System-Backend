@@ -108,22 +108,23 @@ offered -> rejected -> reassigned offered -> all drivers reject -> cancelled
 
 Ride Actions
 
-|Method   |     Endpoint |
-|POST     |    /api/rides/<ride_id>/accept/<driver_id>/
-|POST     |     /api/rides/<ride_id>/reject/<driver_id>/
-|POST     |    /api/rides/<ride_id>/start/<driver_id>/
-|POST     |    /api/rides/<ride_id>/complete/<driver_id>/ 
+|  Method  |  Endpoint |
+|----------|-----------|
+|  POST  |    /api/rides/<ride_id>/accept/<driver_id>/ |
+|  POST  |     /api/rides/<ride_id>/reject/<driver_id>/ |
+|  POST  |    /api/rides/<ride_id>/start/<driver_id>/ |
+|  POST  |    /api/rides/<ride_id>/complete/<driver_id>/ | 
 
 ## Project Structure:
 
 taxi-dispatch-backend/ 
-│
-|--rides/
-|-- api/
-|-- manage.py
-|-- db.sqlite3
-|-- requirements.txt
-|-- README.md 
+│----------|
+| --rides/ |
+|-- api/ |
+|-- manage.py |
+|-- db.sqlite3 |
+|-- requirements.txt |
+|-- README.md |
 
 ## Future Improvements:
 
