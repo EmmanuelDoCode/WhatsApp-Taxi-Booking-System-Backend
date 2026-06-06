@@ -1,96 +1,96 @@
-🚕 Taxi Dispatch Backend MVP
+# 🚕 Taxi Dispatch Backend MVP
 
 A Django REST Framework backend that simulates a taxi dispatch system, including ride requests, driver assignment, ride acceptance, ride rejection, automatic reassignment, and ride completion workflows.
 
-## Overview
+# Overview
 
 This project was built to practice backend software engineering concepts such as:
 
-• REST API development
+> REST API development
 
-• Business logic implementation
+> Business logic implementation
 
-• Workflow/state management
+> Workflow/state management
 
-• Database modeling
+> Database modeling
 
-• Driver assignment algorithms
+> Driver assignment algorithms
 
-• Error handling and validation
+> Error handling and validation
 
-• Version control with Git and GitHub
+> Version control with Git and GitHub
 
 The system manages the complete ride lifecycle from request creation to trip completion.
 
-## Features
+# Features
 
 Ride Management
 
-• Create ride requests
+> Create ride requests
 
-• Track ride status
+> Track ride status
 
-• View ride history in Django Admin
+> View ride history in Django Admin
 
-Driver Management
+# Driver Management:
 
-• Register drivers
+> Register drivers
 
-• Track driver availability
+> Track driver availability
 
-• Prevent double-booking
+> Prevent double-booking
 
-Dispatch Logic
+# Dispatch Logic:
 
-• Automatically assign available drivers
+> Automatically assign available drivers
 
-• Prevent assignment to busy drivers
+> Prevent assignment to busy drivers
 
-Driver Actions
+## Driver Actions:
 
-• Accept rides
+> Accept rides
 
-• Reject rides
+> Reject rides
 
-• Start rides
+> Start rides
 
-• Complete rides
+> Complete rides
 
-Smart Reassignment
+# Smart Reassignment
 
 When a driver rejects a ride:
 
-• The rejection is recorded
+> The rejection is recorded
 
-• Another available driver is searched
+> Another available driver is searched
 
-• The ride is reassigned automatically
+> The ride is reassigned automatically
 
 If no driver is available:
 
-• The ride is cancelled automatically
+> The ride is cancelled automatically
 
-Notifications (Console Simulation)
+# Notifications (Console Simulation)
 
 The system simulates customer notifications for:
 
-• Driver assigned
+> Driver assigned
 
-• Ride accepted
+> Ride accepted
 
-• Ride started
+> Ride started
 
-• Ride completed
+> Ride completed
 
-Ride Lifecycle
+# Ride Lifecycle:
 
-pending ↓ offered ↓ assigned ↓ ongoing ↓ completed 
+pending -> offered -> assigned -> ongoing -> completed 
 
-Alternative flows:
+# Alternative flows:
 
-offered ↓ rejected ↓ reassigned offered ↓ all drivers reject ↓ cancelled 
+offered -> rejected -> reassigned offered -> all drivers reject -> cancelled 
 
-Tech Stack
+# Tech Stack
 
 • Python
 
@@ -104,15 +104,26 @@ Tech Stack
 
 • GitHub
 
-API Endpoints
+# API Endpoints
 
 Ride Actions
 
-MethodEndpointPOST/api/rides/<ride_id>/accept/<driver_id>/POST/api/rides/<ride_id>/reject/<driver_id>/POST/api/rides/<ride_id>/start/<driver_id>/POST/api/rides/<ride_id>/complete/<driver_id>/ 
+Method        Endpoint
+POST          /api/rides/<ride_id>/accept/<driver_id>/
+POST          /api/rides/<ride_id>/reject/<driver_id>/
+POST          /api/rides/<ride_id>/start/<driver_id>/
+POST          /api/rides/<ride_id>/complete/<driver_id>/ 
 
 ## Project Structure:
 
-taxi-dispatch-backend/ │ ├── rides/ ├── api/ ├── manage.py ├── db.sqlite3 ├── requirements.txt └── README.md 
+taxi-dispatch-backend/ 
+│
+|--rides/
+|-- api/
+|-- manage.py
+|-- db.sqlite3
+|-- requirements.txt
+|-- README.md 
 
 ## Future Improvements:
 
